@@ -6,10 +6,8 @@ from utils.markdown import process_markdown_files
 import os
 from typing import List, Dict, Any, Tuple
 load_dotenv()
-
-MD_FOLDER = os.getenv('MD_FOLDER')
-REFRESH_KEY = os.getenv('REFRESH_KEY')
 app = Flask(__name__)
+app.config.from_object('config.Config')
 
 @app.route('/')
 def index() -> str:
@@ -18,8 +16,8 @@ def index() -> str:
 @app.route('/api/refresh', methods=['GET'])
 def api_courses() -> Response | tuple[Response, int]:
     key: str = request.args.get('key', '')
-    if key == REFRESH_KEY:
-        courses: List[Dict[str, Any]] = process_markdown_files(MD_FOLDER)
+    if key == app.config['REFRESH_KEY']:
+        courses: List[Dict[str, Any]] = process_markdown_files(app.config['MD_FOLDER'])
         for course in courses:
             existing_course = get_courses(course['html_path'])
             if existing_course:

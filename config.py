@@ -6,6 +6,10 @@ class Config:
     Always been using PostgreSQL, but for this project, I will use SQLite and see how it goes.
     I have to say that I am a little bit scared of the result...
     """
-    DB_NAME = os.getenv('DB_NAME')
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DB_NAME}.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    DB_NAME = os.getenv('DB_NAME') + '.db'
+    MD_FOLDER = os.getenv('MD_FOLDER')
+    REFRESH_KEY = os.getenv('REFRESH_KEY')
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(BASE_DIR, DB_NAME)}'
