@@ -1,12 +1,13 @@
 import logging
+import os
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
+from flask import Flask, render_template, request, jsonify, Response, redirect, url_for, send_from_directory
 
 from utils.markdown import process_markdown_files
-from utils.models import get_all_courses, update_course, add_course, db
+from utils.models import get_all_courses, update_course, add_course, db, get_course
 
 load_dotenv()
 
@@ -41,6 +42,15 @@ def index() -> str:
     return render_template('courses.html', courses=courses, current_year=datetime.now().year)
 
 
+@app.route('/assets/<semester>/<course_name>/<path:filename>')
+def serve_assets(semester, course_name, filename):
+    """
+    Servir les fichiers assets (images) depuis un dossier externe.
+    """
+    asset_folder = os.path.join(app.config["MD_FOLDER"], f'md_sync_{semester}', course_name, 'assets')
+    return send_from_directory(asset_folder, filename)
+
+
 @app.route('/api/refresh', methods=['GET'])
 def api_courses() -> Response | tuple[Response, int]:
     """
@@ -53,7 +63,7 @@ def api_courses() -> Response | tuple[Response, int]:
         try:
             courses: List[Dict[str, Any]] = process_markdown_files(app.config['MD_FOLDER'])
             for course in courses:
-                existing_course = get_courses(course['html_path'])
+                existing_course: Optional[Dict[str, Any]] = get_course(course['html_path'])
                 if existing_course:
                     if existing_course['size'] != course['size']:
                         update_course(course)

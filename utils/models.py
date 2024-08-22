@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -47,6 +47,28 @@ def get_all_courses() -> List[Dict[str, Any]]:
         }
         for course in courses
     ]
+
+
+def get_course(path: str) -> Optional[Dict[str, Any]]:
+    """
+    Get a course from the database
+    :param path: the course path
+    :return: the course data
+    """
+    course = Course.query.filter_by(path=path).first()
+    if course:
+        return {
+            "id": course.id,
+            "title": course.title,
+            "author": course.author,
+            "path": course.path,
+            "html_path": course.html_path,
+            "pdf_path": course.pdf_path,
+            "size": course.size,
+            "date": course.date,
+            "last_update": course.last_update
+        }
+    return None
 
 
 def update_course(course_data: Dict[str, Any]) -> None:

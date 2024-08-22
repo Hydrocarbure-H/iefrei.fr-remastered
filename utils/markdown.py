@@ -4,6 +4,8 @@ from typing import List, Dict, Any
 
 PUBLIC_FOLDER_PATH: str = os.getenv('PUBLIC_FOLDER_PATH')
 AUTHOR: str = os.getenv('AUTHOR')
+HTTP_ADDR = os.getenv('HTTP_ADDR')
+MD_FOLDER = os.getenv('MD_FOLDER')
 
 
 def get_dir_contents(dir_path: str) -> List[str]:
@@ -57,16 +59,38 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
 
 def process_md_to_html(course: Dict[str, Any]) -> None:
     """
-    Convert a markdown file to html
-    :param course: the course dictionary
+    Convert a Markdown file to HTML and replace image paths with URLs.
+
+    This function reads a Markdown file, replaces the relative paths of images with
+    absolute URLs based on the environment variable HTTP_ADDR, and then uses Pandoc
+    to convert the Markdown file into an HTML file.
+
+    :param course: A dictionary containing course details such as title, semester, and paths.
     :return: None
     """
+    # Read the content of the Markdown file
     with open(course['path'], 'r', encoding='utf-8') as f:
         content: str = f.read()
-    content = content.replace("./assets/", f"https://iefrei.fr/courses/md_sync_s7/Cours/{course['title']}/assets/")
+
+    # Replace relative image paths with full URLs
+    content = content.replace(
+        "./assets/",
+        f"{HTTP_ADDR}/assets/md_sync_{course['semester']}/{course['title']}/assets/"
+    )
+
+    # Write the modified content back to the Markdown file
     with open(course['path'], 'w', encoding='utf-8') as f:
         f.write(content)
-    command: str = f'pandoc -s --highlight-style pygments --verbose --katex --toc -V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css --metadata title="{course["title"]}" "{course["path"]}" -o "{course["html_path"]}" --self-contained -F mermaid-filter'
+
+    # Build the Pandoc command to convert Markdown to HTML
+    command: str = (
+        f'pandoc -s --highlight-style pygments --verbose --katex --toc '
+        f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
+        f'--metadata title="{course["title"]}" "{course["path"]}" '
+        f'-o "{course["html_path"]}" --embed-resources --standalone'
+    )
+
+    # Execute the Pandoc command using subprocess
     subprocess.run(command, shell=True, check=True)
 
 
@@ -76,5 +100,4 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
     :param course: the course dictionary
     :return: None
     """
-    command: str = f'pandoc -s --highlight-style pygments --verbose --katex --toc -V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css --metadata title="{course["title"]}" "{course["path"]}" -o "{course["pdf_path"]}" --self-contained -F mermaid-filter'
-    subprocess.run(command, shell=True, check=True)
+    pass

@@ -17,3 +17,4 @@ class Config:
     DEBUG = os.getenv('DEBUG')
     HOST = os.getenv('HOST')
     PORT = os.getenv('PORT')
+    HTTP_ADDR = os.getenv('HTTP_ADDR')
