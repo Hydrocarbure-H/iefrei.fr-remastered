@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, jsonify, Response
+import logging
+
+from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
 from dotenv import load_dotenv
 
 from utils.models import init_db, get_courses, update_course, add_course
@@ -6,8 +8,15 @@ from utils.markdown import process_markdown_files
 import os
 from typing import List, Dict, Any, Tuple
 load_dotenv()
+
+# Setup the Flask App
 app = Flask(__name__)
 app.config.from_object('config.Config')
+
+
+# Setup logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.route('/')
 def root() -> Response:
@@ -51,6 +60,16 @@ def api_courses() -> Response | tuple[Response, int]:
 
     # If the key is invalid, return a forbidden message
     return jsonify({"status": "error", "message": "Invalid Refresh Key"}), 403
+
+@app.errorhandler(404)
+def page_not_found(e) -> Response:
+    """
+    Handle 404 errors by redirecting to /courses
+    :param e: The exception instance
+    :return: A redirection response to /courses
+    """
+    logger.warning(f"404: {request.url}")
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     init_db()
