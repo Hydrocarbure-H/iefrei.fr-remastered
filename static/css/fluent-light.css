@@ -407,7 +407,7 @@ tt {
 }
 
 div .sourceCode {
-    padding: 5px;
+    padding: 10px;
     border-radius: 8px;
     min-width: 100%;
     width: fit-content;
@@ -415,10 +415,15 @@ div .sourceCode {
     overflow-x: scroll;
 }
 
+pre {
+    padding: 10px;
+    border-radius: 10px;
+}
+
 .shell, .shell code {
     background-color: #efefef;
     border-radius: 8px;
-    padding: 5px;
+    padding: 10px;
     width: fit-content;
     overflow-x: hidden;
 }
