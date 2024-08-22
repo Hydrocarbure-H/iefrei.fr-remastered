@@ -15,7 +15,7 @@ app = Flask(__name__)
 def index() -> str:
     return render_template('index.html')
 
-@app.route('/api/courses', methods=['GET'])
+@app.route('/api/refresh', methods=['GET'])
 def api_courses() -> Response | tuple[Response, int]:
     key: str = request.args.get('key', '')
     if key == REFRESH_KEY:
@@ -28,7 +28,7 @@ def api_courses() -> Response | tuple[Response, int]:
             else:
                 add_course(course)
         return jsonify({"status": "success", "courses": courses})
-    return jsonify({"status": "error", "message": "Invalid API Key"}), 403
+    return jsonify({"status": "error", "message": "Invalid Refresh Key"}), 403
 
 if __name__ == '__main__':
     init_db()
