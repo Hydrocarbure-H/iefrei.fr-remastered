@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
+from flask import Flask, render_template, request, jsonify, Response, redirect, url_for, send_from_directory
 
 from utils.markdown import process_markdown_files
 from utils.models import get_all_courses, update_course, add_course, db, get_course
@@ -40,6 +40,36 @@ def index() -> str:
     """
     courses: list[dict[str, Any]] = get_all_courses()
     return render_template('courses.html', courses=courses, current_year=datetime.now().year)
+
+
+@app.route('/assets/<semester>/<course_name>/<path:filename>')
+def serve_assets(semester, course_name, filename):
+    """
+    Serve static asset files (e.g., images) from an external directory.
+
+    This route handles requests for asset files stored in the external MD_FOLDER directory.
+    The URL structure includes the semester and course name, which are used to locate the
+    appropriate asset directory.
+
+    :param semester: The semester identifier (e.g., s7, s8).
+    :param course_name: The name of the course.
+    :param filename: The name of the file to serve.
+    :return: The file content served from the directory or redirect to index if not found.
+    """
+    # Construct the full path to the assets directory
+    print(os.getenv("MD_FOLDER_LOCATION"))
+    asset_folder = os.path.join(os.getenv("MD_FOLDER_LOCATION"), f'md_sync_s{semester}', 'Cours', course_name)
+
+    print(asset_folder)
+    # Construct the full file path
+    file_path = os.path.join(asset_folder, filename)
+    print(file_path)
+
+    # Check if the file exists and serve it, otherwise redirect to the index page
+    if os.path.exists(file_path):
+        return send_from_directory(asset_folder, filename)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/courses/<int:course_id>', methods=['GET'])

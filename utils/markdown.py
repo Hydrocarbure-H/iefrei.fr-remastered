@@ -78,7 +78,7 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
     # Replace relative image paths with full URLs
     content = content.replace(
         "./assets/",
-        f"{HTTP_ADDR}/assets/md_sync_{course['semester']}/{course['title']}/assets/"
+        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/assets/"
     )
 
     # Convert the modification time from timestamp to datetime object
