@@ -1,5 +1,6 @@
 import os
 
+
 class Config:
     """
     Set Flask configuration vars from .env file

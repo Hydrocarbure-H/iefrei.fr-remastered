@@ -1,9 +1,10 @@
 import os
-from typing import List, Dict, Any
 import subprocess
+from typing import List, Dict, Any
 
-PUBLIC_FOLDER_PATH:str = os.getenv('PUBLIC_FOLDER_PATH')
-AUTHOR:str = os.getenv('AUTHOR')
+PUBLIC_FOLDER_PATH: str = os.getenv('PUBLIC_FOLDER_PATH')
+AUTHOR: str = os.getenv('AUTHOR')
+
 
 def get_dir_contents(dir_path: str) -> List[str]:
     """
@@ -16,6 +17,7 @@ def get_dir_contents(dir_path: str) -> List[str]:
         for file in files:
             results.append(os.path.join(root, file))
     return results
+
 
 def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
     """
@@ -52,6 +54,7 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
 
     return md_files
 
+
 def process_md_to_html(course: Dict[str, Any]) -> None:
     """
     Convert a markdown file to html
@@ -66,6 +69,7 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
     command: str = f'pandoc -s --highlight-style pygments --verbose --katex --toc -V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css --metadata title="{course["title"]}" "{course["path"]}" -o "{course["html_path"]}" --self-contained -F mermaid-filter'
     subprocess.run(command, shell=True, check=True)
 
+
 def process_md_to_pdf(course: Dict[str, Any]) -> None:
     """
     Convert a markdown file to pdf
@@ -74,4 +78,3 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
     """
     command: str = f'pandoc -s --highlight-style pygments --verbose --katex --toc -V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css --metadata title="{course["title"]}" "{course["path"]}" -o "{course["pdf_path"]}" --self-contained -F mermaid-filter'
     subprocess.run(command, shell=True, check=True)
-

@@ -1,14 +1,16 @@
+from typing import Dict, Optional, Any
+
 from flask_sqlalchemy import SQLAlchemy
-from typing import List, Dict, Optional, Any
-from flask import Flask
 
 db = SQLAlchemy()
+
 
 def init_db() -> None:
     from app import app
     db.init_app(app)
     with app.app_context():
         db.create_all()
+
 
 class Course(db.Model):
     """
@@ -23,6 +25,7 @@ class Course(db.Model):
     size = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     last_update = db.Column(db.DateTime, nullable=True)
+
 
 def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
     """
@@ -45,6 +48,7 @@ def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
         }
     return None
 
+
 def update_course(course_data: Dict[str, Any]) -> None:
     """
     Update a course in the database
@@ -56,6 +60,7 @@ def update_course(course_data: Dict[str, Any]) -> None:
         course.last_update = course_data['date']
         course.size = course_data['size']
         db.session.commit()
+
 
 def add_course(course_data: Dict[str, Any]) -> None:
     """

@@ -1,22 +1,22 @@
 import logging
+from typing import List, Dict, Any
 
-from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
 from dotenv import load_dotenv
+from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
 
-from utils.models import init_db, get_courses, update_course, add_course
 from utils.markdown import process_markdown_files
-import os
-from typing import List, Dict, Any, Tuple
+from utils.models import init_db, get_courses, update_course, add_course
+
 load_dotenv()
 
 # Setup the Flask App
 app = Flask(__name__)
 app.config.from_object('config.Config')
 
-
 # Setup logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 @app.route('/')
 def root() -> Response:
@@ -26,6 +26,7 @@ def root() -> Response:
     """
     return redirect(url_for('index'))
 
+
 @app.route('/courses', methods=['GET'])
 def index() -> str:
     """
@@ -33,6 +34,7 @@ def index() -> str:
     :return: The index page as str... I guess...
     """
     return render_template('index.html')
+
 
 @app.route('/api/refresh', methods=['GET'])
 def api_courses() -> Response | tuple[Response, int]:
@@ -61,6 +63,7 @@ def api_courses() -> Response | tuple[Response, int]:
     # If the key is invalid, return a forbidden message
     return jsonify({"status": "error", "message": "Invalid Refresh Key"}), 403
 
+
 @app.errorhandler(404)
 def page_not_found(e) -> Response:
     """
@@ -71,6 +74,7 @@ def page_not_found(e) -> Response:
     logger.warning(f"404: {request.url}")
     return redirect(url_for('index'))
 
+
 @app.errorhandler(500)
 def internal_server_error(e) -> Response:
     """
@@ -80,6 +84,7 @@ def internal_server_error(e) -> Response:
     """
     logger.error(f"500: {request.url}")
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     init_db()
