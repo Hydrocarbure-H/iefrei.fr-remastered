@@ -4,55 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ course.title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/viewer.css') }}">
 </head>
 <body>
 <div class="container">
     <div class="main">
-
-        <div class="main_left">
-            
-            <div class="top_container">
-                <img class="title_picture" onclick="window.location.href='/'"
-                     src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
-                <div class="title_container">
-                    <h1>{{ course.title }}</h1>
-                    <h2>Partageons nos cours simplement.</h2>
-                </div>
-            </div>
-
-
-            <div class="content">
-                <div class="file_container">
-                    <h2>{{ course.title }}</h2>
-                    <h3>Auteur: {{ course.author }}</h3>
-                    <h3>Date: {{ course.date.strftime('%d/%m/%Y à %Hh%M') }}</h3>
-                    <div class="button_container">
-                        <button onclick="copy_link('{{ course.id }}', '{{ course.title }}')">Partager</button>
-                        <a href="{{ course.html_path }}" target="_blank">
-                            <button>Ouvrir</button>
-                        </a>
-                        <a href="{{ course.pdf_path }}" target="_blank">
-                            <button>Télécharger PDF</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <footer>
-                <p>Version 1.0</br>
-                    <a style="text-decoration:underline;"
-                       href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative Commons Attribution 4.0
-                        International</a></br>
-                    Pas d’Utilisation Commerciale </br>
-                    © {{ current_year }} Thomas Peugnet</p>
-            </footer>
-        </div>
-
-        <div class="main_right">
-            <iframe id="viewer" src="{{ course.html_path }}" frameborder="0"></iframe>
+        <div class="content">
+            {{ course_html_content | safe }}
         </div>
     </div>
+
+    <footer>
+        <p>Version 2.0</br>
+            <a style="text-decoration:underline;" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative
+                Commons Attribution 4.0 International</a></br>
+            Pas d’Utilisation Commerciale </br>
+            © {{ current_year }} Thomas Peugnet</p>
+    </footer>
 </div>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
