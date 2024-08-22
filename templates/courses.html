@@ -39,11 +39,9 @@
                             <button onclick="copy_link('{{ course.id }}', '{{ course.title }}')">
                                 Partager
                             </button>
-                            <a href="{{ url_for('course', course_id=course.id) }}">
-                                <button>
-                                    Ouvrir
-                                </button>
-                            </a>
+                            <button onclick="window.location.href='{{ url_for('course', course_id=course.id) }}'">
+                                Ouvrir
+                            </button>
                         </div>
                         <button id="view" onclick="loadCourse('{{ url_for('course', course_id=course.id) }}')">
                             Visualiser

@@ -25,7 +25,7 @@
     --high-bg-color-5: #579ad6;
 
     --file-container-width: 180px;
-    --border-radius: 5px;
+    --border-radius: 10px;
     --button-padding: 5px;
 }
 
@@ -181,7 +181,7 @@ body {
     font-size: 15px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 6px;
     transition: .3s;
     width: 100%;
 }
