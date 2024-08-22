@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Any
+from typing import Dict, Any, List
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -27,15 +27,14 @@ class Course(db.Model):
     last_update = db.Column(db.DateTime, nullable=True)
 
 
-def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
+def get_all_courses() -> List[Dict[str, Any]]:
     """
-    Get a course by its html path
-    :param html_path: the html path
-    :return: the course dictionary or None if not found
+    Get all courses from the database
+    :return: Dict list of all courses
     """
-    course = Course.query.filter_by(html_path=html_path).first()
-    if course:
-        return {
+    courses = Course.query.all()
+    return [
+        {
             "id": course.id,
             "title": course.title,
             "author": course.author,
@@ -46,7 +45,8 @@ def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
             "date": course.date,
             "last_update": course.last_update
         }
-    return None
+        for course in courses
+    ]
 
 
 def update_course(course_data: Dict[str, Any]) -> None:

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Cours</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="main">
+        <div class="main_left">
+            <div class="top_container">
+                <img class="title_picture" onclick="window.location.href='/'"
+                     src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <div class="title_container">
+                    <h1>iEfrei.fr</h1>
+                    <h2>Partageons nos cours simplement.</h2>
+                </div>
+            </div>
+
+            <div class="nav_bar">
+                <ul class="nav_bar_elements">
+                    <div class="button" id="semester_1" onclick="load_semester(5)">Semestre 5</div>
+                    <div class="button" id="semester_2" onclick="load_semester(6)">Semestre 6</div>
+                    <div class="button" id="semester_3" onclick="load_semester(7)">Semestre 7</div>
+                    <div class="button" id="semester_4" onclick="load_semester(8)">Semestre 8</div>
+                </ul>
+            </div>
+
+            <div class="content">
+                {% for course in courses %}
+                    <div class="file_container">
+                        <img src="{{ url_for('static', filename='images/file-icon.svg') }}" alt="Icone du cours">
+                        <h2>{{ course.title }}</h2>
+                        <h3>{{ course.author }}</h3>
+                        <h3>{{ course.date.strftime('%d/%m/%Y à %Hh%M') }}</h3>
+                        <div class="button_container">
+                            <button onclick="copy_link('{{ course.id }}', '{{ course.title }}')">Partager</button>
+                            <a href="{{ course.html_path }}" target="_blank">
+                                <button>Ouvrir</button>
+                            </a>
+                            <a href="{{ url_for('view_course', id=course.id) }}">
+                                <button id="view">Visualiser</button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <footer>
+                <p>Version 1.0</br><a style="text-decoration:underline;"
+                                      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative Commons
+                    Attribution 4.0 International</a></br>Pas d’Utilisation Commerciale </br>© 2021 Thomas Peugnet</p>
+            </footer>
+        </div>
+
+        <div class="main_right">
+            <iframe id="viewer" src=""></iframe>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

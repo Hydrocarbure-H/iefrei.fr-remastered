@@ -5,13 +5,16 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
 
 from utils.markdown import process_markdown_files
-from utils.models import init_db, get_courses, update_course, add_course
+from utils.models import get_all_courses, update_course, add_course, db
 
 load_dotenv()
 
 # Setup the Flask App
 app = Flask(__name__)
 app.config.from_object('config.Config')
+
+# Setup the database
+db.init_app(app)
 
 # Setup logger
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +36,8 @@ def index() -> str:
     Render the index page
     :return: The index page as str... I guess...
     """
-    return render_template('index.html')
+    courses: list[dict[str, Any]] = get_all_courses()
+    return render_template('courses.html', courses=courses)
 
 
 @app.route('/api/refresh', methods=['GET'])
@@ -87,5 +91,6 @@ def internal_server_error(e) -> Response:
 
 
 if __name__ == '__main__':
-    init_db()
+    with app.app_context():
+        db.create_all()
     app.run(debug=app.config['DEBUG'], host=app.config['HOST'], port=app.config['PORT'])
