@@ -39,11 +39,11 @@
                             <button onclick="copy_link('{{ course.id }}', '{{ course.title }}')">
                                 Partager
                             </button>
-                            <a href="{{ course.html_path }}" target="_blank">
-                                <button>
-                                    Ouvrir
-                                </button>
-                            </a>
+                            {#                            <a href="{{ course.id }}" target="_blank">#}
+                            {#                                <button>#}
+                            {#                                    Ouvrir#}
+                            {#                                </button>#}
+                            {#                            </a>#}
                         </div>
                         <a href="{{ url_for('course', course_id=course.id) }}">
                             <button id="view">

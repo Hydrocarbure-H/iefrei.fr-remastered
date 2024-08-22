@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify, Response, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, jsonify, Response, redirect, url_for
 
 from utils.markdown import process_markdown_files
 from utils.models import get_all_courses, update_course, add_course, db, get_course
@@ -45,35 +45,27 @@ def index() -> str:
 @app.route('/courses/<int:course_id>', methods=['GET'])
 def course(course_id: int) -> str | Response:
     """
-    Render the course page
+    Render the course page with the HTML content of the course.
     :param course_id: The course id
     :return: The course page as Response
     """
     db_course: Optional[Dict[str, Any]] = get_course(id=course_id)
+
     if db_course:
-        return render_template('course.html', course=db_course, current_year=datetime.now().year)
+        # Get the path of the HTML file from the course data
+        html_file_path = db_course.get('html_path')
+
+        if os.path.exists(html_file_path):
+            # Read the content of the HTML file
+            with open(html_file_path, 'r', encoding='utf-8') as f:
+                course_html_content = f.read()
+
+            # Render the course.html template and pass the HTML content
+            return render_template('course.html', course=db_course, current_year=datetime.now().year,
+                                   course_html_content=course_html_content)
+
+    # Redirect to index if the course is not found
     return redirect(url_for('index'))
-
-
-@app.route('/assets/md_sync_<semester>/<course_name>/assets/<path:filename>')
-def serve_assets(semester, course_name, filename):
-    """
-    Serve static asset files (e.g., images) from an external directory.
-
-    This route handles requests for image files stored in the external MD_FOLDER directory.
-    The URL structure includes the semester and course name, which are used to locate the
-    appropriate asset directory.
-
-    :param semester: The semester identifier (e.g., s7, s8).
-    :param course_name: The name of the course.
-    :param filename: The name of the file to serve.
-    :return: The file content served from the directory.
-    """
-    # Construct the full path to the assets directory
-    asset_folder = os.path.join(app.config["MD_FOLDER"], f'md_sync_{semester}', course_name, 'assets')
-
-    # Serve the requested file from the assets directory
-    return send_from_directory(asset_folder, filename)
 
 
 @app.route('/api/refresh', methods=['GET'])

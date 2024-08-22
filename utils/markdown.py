@@ -6,6 +6,7 @@ from typing import List, Dict, Any
 PUBLIC_FOLDER_PATH: str = os.getenv('PUBLIC_FOLDER_PATH')
 AUTHOR: str = os.getenv('AUTHOR')
 HTTP_ADDR = os.getenv('HTTP_ADDR')
+MD_FOLDER_LOCATION = os.getenv('MD_FOLDER_LOCATION')
 MD_FOLDER = os.getenv('MD_FOLDER')
 
 
