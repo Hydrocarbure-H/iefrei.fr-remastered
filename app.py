@@ -57,13 +57,10 @@ def serve_assets(semester, course_name, filename):
     :return: The file content served from the directory or redirect to index if not found.
     """
     # Construct the full path to the assets directory
-    print(os.getenv("MD_FOLDER_LOCATION"))
     asset_folder = os.path.join(os.getenv("MD_FOLDER_LOCATION"), f'md_sync_s{semester}', 'Cours', course_name)
 
-    print(asset_folder)
     # Construct the full file path
     file_path = os.path.join(asset_folder, filename)
-    print(file_path)
 
     # Check if the file exists and serve it, otherwise redirect to the index page
     if os.path.exists(file_path):
