@@ -33,6 +33,7 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
     md_files: List[Dict[str, Any]] = []
 
     for file in files:
+        print(file)
         try:
             if file.endswith(".md"):
                 md_files.append({
@@ -42,7 +43,8 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
                     "title": os.path.basename(os.path.dirname(file)),
                     "author": AUTHOR,
                     "size": os.path.getsize(file),
-                    "date": os.path.getmtime(file)
+                    "date": os.path.getmtime(file),
+                    "semester": os.getenv('SEMESTER')
                 })
                 process_md_to_html(md_files[-1])
                 process_md_to_pdf(md_files[-1])
@@ -89,6 +91,8 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
         f'--metadata title="{course["title"]}" "{course["path"]}" '
         f'-o "{course["html_path"]}" --embed-resources --standalone'
     )
+
+    print(command)
 
     # Execute the Pandoc command using subprocess
     subprocess.run(command, shell=True, check=True)

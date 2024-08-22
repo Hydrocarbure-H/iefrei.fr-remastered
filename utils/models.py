@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Any, List, Optional
 
 from flask_sqlalchemy import SQLAlchemy
@@ -25,6 +26,7 @@ class Course(db.Model):
     size = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     last_update = db.Column(db.DateTime, nullable=True)
+    semester = db.Column(db.Integer, nullable=False)
 
 
 def get_all_courses() -> List[Dict[str, Any]]:
@@ -43,7 +45,8 @@ def get_all_courses() -> List[Dict[str, Any]]:
             "pdf_path": course.pdf_path,
             "size": course.size,
             "date": course.date,
-            "last_update": course.last_update
+            "last_update": course.last_update,
+            "semester": course.semester
         }
         for course in courses
     ]
@@ -66,7 +69,8 @@ def get_course(path: str) -> Optional[Dict[str, Any]]:
             "pdf_path": course.pdf_path,
             "size": course.size,
             "date": course.date,
-            "last_update": course.last_update
+            "last_update": course.last_update,
+            "semester": course.semester
         }
     return None
 
@@ -97,7 +101,8 @@ def add_course(course_data: Dict[str, Any]) -> None:
         html_path=course_data['html_path'],
         pdf_path=course_data['pdf_path'],
         size=course_data['size'],
-        date=course_data['date']
+        date=course_data['date'],
+        semester=os.getenv('SEMESTER')
     )
     db.session.add(new_course)
     db.session.commit()

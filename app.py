@@ -42,12 +42,24 @@ def index() -> str:
     return render_template('courses.html', courses=courses, current_year=datetime.now().year)
 
 
-@app.route('/assets/<semester>/<course_name>/<path:filename>')
+@app.route('/assets/md_sync_<semester>/<course_name>/assets/<path:filename>')
 def serve_assets(semester, course_name, filename):
     """
-    Servir les fichiers assets (images) depuis un dossier externe.
+    Serve static asset files (e.g., images) from an external directory.
+
+    This route handles requests for image files stored in the external MD_FOLDER directory.
+    The URL structure includes the semester and course name, which are used to locate the
+    appropriate asset directory.
+
+    :param semester: The semester identifier (e.g., s7, s8).
+    :param course_name: The name of the course.
+    :param filename: The name of the file to serve.
+    :return: The file content served from the directory.
     """
+    # Construct the full path to the assets directory
     asset_folder = os.path.join(app.config["MD_FOLDER"], f'md_sync_{semester}', course_name, 'assets')
+
+    # Serve the requested file from the assets directory
     return send_from_directory(asset_folder, filename)
 
 
