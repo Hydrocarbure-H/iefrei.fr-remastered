@@ -10,7 +10,19 @@ app = Flask(__name__)
 app.config.from_object('config.Config')
 
 @app.route('/')
+def root() -> Response:
+    """
+    Redirect from / to /courses
+    :return: A redirection response to /courses
+    """
+    return redirect(url_for('index'))
+
+@app.route('/courses', methods=['GET'])
 def index() -> str:
+    """
+    Render the index page
+    :return: The index page as str... I guess...
+    """
     return render_template('index.html')
 
 @app.route('/api/refresh', methods=['GET'])
