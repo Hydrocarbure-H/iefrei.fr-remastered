@@ -17,3 +17,11 @@ function load_semester(semester)
 {
     window.location.href = window.location.origin + '?semester=' + semester;
 }
+
+/*
+    Get the current year for copyright
+ */
+function get_current_year()
+{
+    return new Date().getFullYear();
+}

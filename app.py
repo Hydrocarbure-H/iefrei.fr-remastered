@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from typing import List, Dict, Any
 
 from dotenv import load_dotenv
@@ -37,7 +38,7 @@ def index() -> str:
     :return: The index page as str... I guess...
     """
     courses: list[dict[str, Any]] = get_all_courses()
-    return render_template('courses.html', courses=courses)
+    return render_template('courses.html', courses=courses, current_year=datetime.now().year)
 
 
 @app.route('/api/refresh', methods=['GET'])
