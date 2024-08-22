@@ -71,6 +71,16 @@ def page_not_found(e) -> Response:
     logger.warning(f"404: {request.url}")
     return redirect(url_for('index'))
 
+@app.errorhandler(500)
+def internal_server_error(e) -> Response:
+    """
+    Handle 500 errors by redirecting to /courses
+    :param e: The exception instance
+    :return: A redirection response to /courses
+    """
+    logger.error(f"500: {request.url}")
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=app.config['DEBUG'], host=app.config['HOST'], port=app.config['PORT'])

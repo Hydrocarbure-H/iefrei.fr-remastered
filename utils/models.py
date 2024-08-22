@@ -11,6 +11,9 @@ def init_db() -> None:
         db.create_all()
 
 class Course(db.Model):
+    """
+    Course Model
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     author = db.Column(db.String(120), nullable=False)
@@ -22,6 +25,11 @@ class Course(db.Model):
     last_update = db.Column(db.DateTime, nullable=True)
 
 def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
+    """
+    Get a course by its html path
+    :param html_path: the html path
+    :return: the course dictionary or None if not found
+    """
     course = Course.query.filter_by(html_path=html_path).first()
     if course:
         return {
@@ -38,6 +46,11 @@ def get_courses(html_path: str) -> Optional[Dict[str, Any]]:
     return None
 
 def update_course(course_data: Dict[str, Any]) -> None:
+    """
+    Update a course in the database
+    :param course_data: the course data
+    :return: None
+    """
     course = Course.query.filter_by(html_path=course_data['html_path']).first()
     if course:
         course.last_update = course_data['date']
@@ -45,6 +58,11 @@ def update_course(course_data: Dict[str, Any]) -> None:
         db.session.commit()
 
 def add_course(course_data: Dict[str, Any]) -> None:
+    """
+    Add a course to the database
+    :param course_data: the course data
+    :return: None
+    """
     new_course = Course(
         title=course_data['title'],
         author=course_data['author'],
