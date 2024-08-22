@@ -42,6 +42,19 @@ def index() -> str:
     return render_template('courses.html', courses=courses, current_year=datetime.now().year)
 
 
+@app.route('/courses/<int:course_id>', methods=['GET'])
+def course(course_id: int) -> str | Response:
+    """
+    Render the course page
+    :param course_id: The course id
+    :return: The course page as Response
+    """
+    db_course: Optional[Dict[str, Any]] = get_course(id=course_id)
+    if db_course:
+        return render_template('course.html', course=db_course, current_year=datetime.now().year)
+    return redirect(url_for('index'))
+
+
 @app.route('/assets/md_sync_<semester>/<course_name>/assets/<path:filename>')
 def serve_assets(semester, course_name, filename):
     """

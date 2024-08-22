@@ -1,5 +1,6 @@
 import os
 import subprocess
+from datetime import datetime
 from typing import List, Dict, Any
 
 PUBLIC_FOLDER_PATH: str = os.getenv('PUBLIC_FOLDER_PATH')
@@ -33,7 +34,6 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
     md_files: List[Dict[str, Any]] = []
 
     for file in files:
-        print(file)
         try:
             if file.endswith(".md"):
                 md_files.append({
@@ -79,6 +79,9 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
         "./assets/",
         f"{HTTP_ADDR}/assets/md_sync_{course['semester']}/{course['title']}/assets/"
     )
+
+    # Convert the modification time from timestamp to datetime object
+    course['date'] = datetime.fromtimestamp(course['date'])
 
     # Write the modified content back to the Markdown file
     with open(course['path'], 'w', encoding='utf-8') as f:

@@ -52,15 +52,21 @@ def get_all_courses() -> List[Dict[str, Any]]:
     ]
 
 
-def get_course(path: str) -> Optional[Dict[str, Any]]:
+def get_course(path: str = None, id=None) -> Optional[Dict[str, Any]]:
     """
     Get a course from the database
     :param path: the course path
+    :param id: the course id
     :return: the course data
     """
-    course = Course.query.filter_by(path=path).first()
+    course = None
+    if id:
+        course = Course.query.filter_by(id=id).first()
+    elif path:
+        course = Course.query.filter_by(path=path).first()
+
     if course:
-        return {
+        course = {
             "id": course.id,
             "title": course.title,
             "author": course.author,
@@ -72,7 +78,7 @@ def get_course(path: str) -> Optional[Dict[str, Any]]:
             "last_update": course.last_update,
             "semester": course.semester
         }
-    return None
+    return course
 
 
 def update_course(course_data: Dict[str, Any]) -> None:
