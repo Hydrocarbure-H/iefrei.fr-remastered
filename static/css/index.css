@@ -386,6 +386,7 @@ footer {
     color: var(--high-bg-color-5);
 }
 
+
 @media screen and (max-width: 985px) {
     .main {
         flex-direction: column;

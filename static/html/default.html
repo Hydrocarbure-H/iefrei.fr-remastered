@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/viewer.css') }}">
+    <title>Aucun cours sélectionné</title>
+    <style>
+        :root {
+            --first-bg-color: #fefeff;
+            --second-bg-color: #f5f5f4;
+            --third-bg-color: rgb(227, 225, 225);
+            --first-tx-color: #000;
+            --second-tx-color: rgb(136, 136, 136);
+            --third-tx-color: #fefeff;
+            --high-bg-color-1: #a28a67;
+            --high-bg-color-2: #528e76;
+            --high-bg-color-3: #8f5959;
+            --high-bg-color-4: #4E6B85;
+            --high-bg-color-5: #579ad6;
+
+            --file-container-width: 180px;
+            --border-radius: 5px;
+            --button-padding: 5px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            background-color: var(--second-bg-color);
+
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Bienvenue sur iEfrei.fr</h1>
+    <p>Veuillez choisir un cours à partir du panneau de gauche pour commencer.</p>
+</div>
+</body>
+</html>
