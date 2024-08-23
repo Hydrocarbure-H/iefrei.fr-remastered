@@ -12,5 +12,16 @@ function copy_link(id, title)
 
 function load_semester(semester)
 {
-    document.querySelector('.dropbtn').innerHTML = 'Semestre ' + semester + '<ion-icon name="chevron-down-outline"></ion-icon>'
+    const dropbtn = document.querySelector('.dropbtn');
+
+    if (semester === 'all')
+    {
+        dropbtn.innerHTML = 'Tous les cours <ion-icon name="chevron-down-outline"></ion-icon>';
+        window.location.href = "{{ url_for('index') }}";
+    }
+    else
+    {
+        dropbtn.innerHTML = 'Semestre ' + semester + ' <ion-icon name="chevron-down-outline"></ion-icon>';
+        window.location.href = "{{ url_for('courses_by_semester', semester=semester) }}";
+    }
 }

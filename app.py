@@ -18,7 +18,14 @@ from flask import (
 )
 
 from utils.markdown import process_markdown_files
-from utils.models import get_all_courses, update_course, add_course, db, get_course
+from utils.models import (
+    get_all_courses,
+    update_course,
+    add_course,
+    db,
+    get_course,
+    get_all_courses_by_semester,
+)
 
 load_dotenv()
 
@@ -51,6 +58,24 @@ def index() -> str:
     """
     courses: list[dict[str, Any]] = get_all_courses()
     current_semester: str = os.getenv("SEMESTER")
+    return render_template(
+        "courses.html",
+        courses=courses,
+        current_year=datetime.now().year,
+        current_semester=current_semester,
+    )
+
+
+@app.route("/courses/semester/<int:semester>", methods=["GET"])
+def courses_by_semester(semester: int) -> str:
+    """
+    Render the index page with courses filtered by the selected semester.
+    :param semester: The semester number
+    :return: The index page with courses for the specified semester
+    """
+    # Assuming get_all_courses_by_semester is a function that returns the courses for a specific semester
+    courses: list[dict[str, Any]] = get_all_courses_by_semester(semester)
+    current_semester: str = str(semester)
     return render_template(
         "courses.html",
         courses=courses,

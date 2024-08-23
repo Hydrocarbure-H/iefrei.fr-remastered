@@ -56,6 +56,30 @@ def get_all_courses() -> List[Dict[str, Any]]:
     ]
 
 
+def get_all_courses_by_semester(semester: int) -> List[Dict[str, Any]]:
+    """
+    Get all courses from the database
+    :return: Dict list of all courses
+    """
+    # order by desc
+    courses = Course.query.filter_by(semester=semester).order_by(asc(Course.date)).all()
+    return [
+        {
+            "id": course.id,
+            "title": course.title,
+            "author": course.author,
+            "path": course.path,
+            "html_path": course.html_path,
+            "pdf_path": course.pdf_path,
+            "size": course.size,
+            "date": course.date,
+            "last_update": course.last_update,
+            "semester": course.semester,
+        }
+        for course in courses
+    ]
+
+
 def get_course(path: str = None, id=None) -> Optional[Dict[str, Any]]:
     """
     Get a course from the database

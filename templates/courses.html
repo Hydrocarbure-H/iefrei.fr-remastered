@@ -12,14 +12,15 @@
         <div id="main_left" class="main_left full-width">
             <div class="top_container sticky-dropdown">
                 <div class="dropdown">
-                    <button class="dropbtn">Semestre {{ current_semester }}
+                    <button class="dropbtn">
                         <ion-icon name="chevron-down-outline"></ion-icon>
                     </button>
                     <div class="dropdown-content">
-                        <a href="#" onclick="load_semester(1)">Semestre 1</a>
-                        <a href="#" onclick="load_semester(6)">Semestre 6</a>
-                        <a href="#" onclick="load_semester(7)">Semestre 7</a>
-                        <a href="#" onclick="load_semester(8)">Semestre 8</a>
+                        <a href="/courses" onclick="setDropbtnText('Tous les cours')">Tous les cours</a>
+                        <a href="/courses/semester/5" onclick="setDropbtnText('Semestre 5')">Semestre 5</a>
+                        <a href="/courses/semester/6" onclick="setDropbtnText('Semestre 6')">Semestre 6</a>
+                        <a href="/courses/semester/7" onclick="setDropbtnText('Semestre 7')">Semestre 7</a>
+                        <a href="/courses/semester/8" onclick="setDropbtnText('Semestre 8')">Semestre 8</a>
                     </div>
                 </div>
 
@@ -72,6 +73,40 @@
 </div>
 
 <script>
+    function setDropbtnText(text)
+    {
+        const dropbtn = document.querySelector('.dropbtn');
+        dropbtn.innerHTML = text + ' <ion-icon name="chevron-down-outline"></ion-icon>';
+    }
+
+    // Script pour définir le texte du bouton en fonction de l'URL actuelle
+    document.addEventListener("DOMContentLoaded", function ()
+    {
+        const dropbtn = document.querySelector('.dropbtn');
+        const currentUrl = window.location.href;
+
+        if (currentUrl.includes('/semester/5'))
+        {
+            setDropbtnText('Semestre 5');
+        }
+        else if (currentUrl.includes('/semester/6'))
+        {
+            setDropbtnText('Semestre 6');
+        }
+        else if (currentUrl.includes('/semester/7'))
+        {
+            setDropbtnText('Semestre 7');
+        }
+        else if (currentUrl.includes('/semester/8'))
+        {
+            setDropbtnText('Semestre 8');
+        }
+        else
+        {
+            setDropbtnText('Tous les cours');
+        }
+    });
+
     function loadCourse(courseUrl)
     {
         // Modifier les classes pour afficher l'iframe
