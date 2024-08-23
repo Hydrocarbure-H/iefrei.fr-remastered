@@ -50,8 +50,12 @@ def index() -> str:
     :return: The index page as str... I guess...
     """
     courses: list[dict[str, Any]] = get_all_courses()
+    current_semester: str = os.getenv("SEMESTER")
     return render_template(
-        "courses.html", courses=courses, current_year=datetime.now().year
+        "courses.html",
+        courses=courses,
+        current_year=datetime.now().year,
+        current_semester=current_semester,
     )
 
 

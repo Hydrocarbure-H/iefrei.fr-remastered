@@ -10,10 +10,7 @@ function copy_link(id, title)
     });
 }
 
-/*
-    Load the semester selected by the user
- */
 function load_semester(semester)
 {
-    window.location.href = window.location.origin + '?semester=' + semester;
+    document.querySelector('.dropbtn').innerHTML = 'Semestre ' + semester + '<ion-icon name="chevron-down-outline"></ion-icon>'
 }
