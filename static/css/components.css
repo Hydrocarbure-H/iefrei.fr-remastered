@@ -58,8 +58,6 @@ ion-icon {
 
 .button_container button,
 .file_container button {
-    /*background-color: var(--second-bg-color);*/
-    /*background-color: unset;*/
     border: none;
     color: var(--first-tx-color);
     padding: var(--button-padding);

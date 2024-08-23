@@ -5,37 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Cours</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-
 </head>
 <body>
 <div class="container">
     <div class="main">
-        <div class="main_left">
+        <div id="main_left" class="main_left full-width">
             <div class="top_container sticky-dropdown">
-                {#                <div class="dropdown">#}
-                {#                    <button class="dropbtn">Semestres</button>#}
-                {#                    <div class="dropdown-content">#}
-                {#                        <a href="#" onclick="load_semester(5)">Semestre 5</a>#}
-                {#                        <a href="#" onclick="load_semester(6)">Semestre 6</a>#}
-                {#                        <a href="#" onclick="load_semester(7)">Semestre 7</a>#}
-                {#                        <a href="#" onclick="load_semester(8)">Semestre 8</a>#}
-                {#                    </div>#}
-                {#                </div>#}
-                <img class="title_picture" onclick="window.location.href='/'"
-                     src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <div class="dropdown">
+                    <button class="dropbtn">Semestres
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="load_semester(5)">Semestre 5</a>
+                        <a href="#" onclick="load_semester(6)">Semestre 6</a>
+                        <a href="#" onclick="load_semester(7)">Semestre 7</a>
+                        <a href="#" onclick="load_semester(8)">Semestre 8</a>
+                    </div>
+                </div>
+
                 <div class="title_container">
                     <h1>iEfrei.fr</h1>
                     <h2>Certains cours méritent d'être pris en note</h2>
                 </div>
-            </div>
-
-            <div class="nav_bar">
-                <ul class="nav_bar_elements">
-                    <div class="button" id="semester_1" onclick="load_semester(5)">Semestre 5</div>
-                    <div class="button" id="semester_2" onclick="load_semester(6)">Semestre 6</div>
-                    <div class="button" id="semester_3" onclick="load_semester(7)">Semestre 7</div>
-                    <div class="button" id="semester_4" onclick="load_semester(8)">Semestre 8</div>
-                </ul>
             </div>
 
             <div class="content">
@@ -47,13 +38,14 @@
                         <h3>{{ course.date.strftime('%d/%m/%Y à %Hh%M') }}</h3>
                         <div class="button_container">
                             <button onclick="copy_link('{{ course.id }}', '{{ course.title }}')">
-                                <ion-icon name="share-outline"></ion-icon>
+                                <ion-icon name="share-social-outline"></ion-icon>
+                            </button>
+
+                            <button onclick="window.location.href='{{ url_for('course', course_id=course.id) }}'">
+                                <ion-icon name="download-outline"></ion-icon>
                             </button>
                             <button onclick="window.location.href='{{ url_for('course', course_id=course.id) }}'">
-                                <ion-icon name="open-outline"></ion-icon>
-                            </button>
-                            <button onclick="window.location.href='{{ url_for('course', course_id=course.id) }}'">
-                                <ion-icon name="cloud-download-outline"></ion-icon>
+                                <ion-icon name="scan-outline"></ion-icon>
                             </button>
                         </div>
                         <button id="view" onclick="loadCourse('{{ url_for('course', course_id=course.id) }}')">
@@ -71,7 +63,7 @@
             </footer>
         </div>
 
-        <div class="main_right">
+        <div id="main_right" class="main_right hidden">
             <iframe id="viewer" src="{{ url_for('static', filename='html/default.html') }}" width="100%"
                     height="100%"></iframe>
 
@@ -82,6 +74,14 @@
 <script>
     function loadCourse(courseUrl)
     {
+        // Modifier les classes pour afficher l'iframe
+        document.getElementById('main_left').classList.remove('full-width');
+        document.getElementById('main_left').classList.add('half-width');
+
+        document.getElementById('main_right').classList.remove('hidden');
+        document.getElementById('main_right').classList.add('visible');
+
+        // Charger le cours dans l'iframe
         document.getElementById('viewer').src = courseUrl;
     }
 </script>

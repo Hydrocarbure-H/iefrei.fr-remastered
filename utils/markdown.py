@@ -3,11 +3,11 @@ import subprocess
 from datetime import datetime
 from typing import List, Dict, Any
 
-PUBLIC_FOLDER_PATH: str = os.getenv('PUBLIC_FOLDER_PATH')
-AUTHOR: str = os.getenv('AUTHOR')
-HTTP_ADDR = os.getenv('HTTP_ADDR')
-MD_FOLDER_LOCATION = os.getenv('MD_FOLDER_LOCATION')
-MD_FOLDER = os.getenv('MD_FOLDER')
+PUBLIC_FOLDER_PATH: str = os.getenv("PUBLIC_FOLDER_PATH")
+AUTHOR: str = os.getenv("AUTHOR")
+HTTP_ADDR = os.getenv("HTTP_ADDR")
+MD_FOLDER_LOCATION = os.getenv("MD_FOLDER_LOCATION")
+MD_FOLDER = os.getenv("MD_FOLDER")
 
 
 def get_dir_contents(dir_path: str) -> List[str]:
@@ -37,16 +37,18 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
     for file in files:
         try:
             if file.endswith(".md"):
-                md_files.append({
-                    "path": file,
-                    "html_path": file.replace(".md", ".html"),
-                    "pdf_path": file.replace(".md", ".pdf"),
-                    "title": os.path.basename(os.path.dirname(file)),
-                    "author": AUTHOR,
-                    "size": os.path.getsize(file),
-                    "date": os.path.getmtime(file),
-                    "semester": os.getenv('SEMESTER')
-                })
+                md_files.append(
+                    {
+                        "path": file,
+                        "html_path": file.replace(".md", ".html"),
+                        "pdf_path": file.replace(".md", ".pdf"),
+                        "title": os.path.basename(os.path.dirname(file)),
+                        "author": AUTHOR,
+                        "size": os.path.getsize(file),
+                        "date": os.path.getmtime(file),
+                        "semester": os.getenv("SEMESTER"),
+                    }
+                )
                 process_md_to_html(md_files[-1])
                 process_md_to_pdf(md_files[-1])
 
@@ -72,25 +74,25 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
     :return: None
     """
     # Read the content of the Markdown file
-    with open(course['path'], 'r', encoding='utf-8') as f:
+    with open(course["path"], "r", encoding="utf-8") as f:
         content: str = f.read()
 
     # Replace relative image paths with full URLs
     content = content.replace(
         "./assets/",
-        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/assets/"
+        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/assets/",
     )
 
     # Convert the modification time from timestamp to datetime object
-    course['date'] = datetime.fromtimestamp(course['date'])
+    course["date"] = datetime.fromtimestamp(course["date"])
 
     # Write the modified content back to the Markdown file
-    with open(course['path'], 'w', encoding='utf-8') as f:
+    with open(course["path"], "w", encoding="utf-8") as f:
         f.write(content)
 
     # Build the Pandoc command to convert Markdown to HTML
     command: str = (
-        f'pandoc -s --highlight-style pygments --verbose --katex --toc '
+        f"pandoc -s --highlight-style pygments --verbose --katex --toc "
         f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
         f'--metadata title="{course["title"]}" "{course["path"]}" '
         f'-o "{course["html_path"]}"'
@@ -104,25 +106,46 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
 
 def process_md_to_pdf(course: Dict[str, Any]) -> None:
     """
-    Convert a Markdown file to PDF.
-
-    This function uses Pandoc to convert a Markdown file into a PDF file.
-    The PDF will include a table of contents, syntax highlighting, and use LaTeX
-    for rendering mathematics (if any).
-
-    :param course: A dictionary containing course details such as title, semester, and paths.
+    Convert a markdown file to PDF using wkhtmltopdf.
+    :param course: the course dictionary
     :return: None
     """
-    # Build the Pandoc command to convert Markdown to PDF
+    # Build the command to convert HTML to PDF using wkhtmltopdf
     command: str = (
-        f'pandoc -s --highlight-style pygments --verbose --katex --toc '
-        f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
-        f'--metadata title="{course["title"]}" "{course["path"]}" '
-        f'-o "{course["pdf_path"]}" '
-        f'--pdf-engine=xelatex --variable mainfont="Roboto"'
+        f'wkhtmltopdf --enable-local-file-access "{course["html_path"]}" "{course["pdf_path"]}"'
     )
 
     print(command)
 
-    # Execute the Pandoc command using subprocess
+    # Execute the command using subprocess
     subprocess.run(command, shell=True, check=True)
+
+
+# def process_md_to_pdf(course: Dict[str, Any]) -> None:
+#     """
+#     Convert a Markdown file to PDF.
+#
+#     This function uses Pandoc to convert a Markdown file into a PDF file.
+#     The PDF will include a table of contents, syntax highlighting, and use LaTeX
+#     for rendering mathematics (if any).
+#
+#     :param course: A dictionary containing course details such as title, semester, and paths.
+#     :return: None
+#     """
+#     # Build the Pandoc command to convert Markdown to PDF
+#     command: str = (
+#         f"pandoc -s --highlight-style pygments --verbose --katex --toc "
+#         f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
+#         f'--metadata title="{course["title"]}" "{course["path"]}" '
+#         f'-o "{course["pdf_path"]}" '
+#         f"--pdf-engine=xelatex"
+#     )
+#
+#     print(command)
+#
+#     # Execute the Pandoc command using subprocess
+#     try:
+#         subprocess.run(command, shell=True, check=True)
+#     except subprocess.CalledProcessError as e:
+#         print(f"\033[91mError while executing the subprocess: {e}\033[0m")
+#         return
