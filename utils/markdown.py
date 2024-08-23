@@ -119,33 +119,3 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
 
     # Execute the command using subprocess
     subprocess.run(command, shell=True, check=True)
-
-
-# def process_md_to_pdf(course: Dict[str, Any]) -> None:
-#     """
-#     Convert a Markdown file to PDF.
-#
-#     This function uses Pandoc to convert a Markdown file into a PDF file.
-#     The PDF will include a table of contents, syntax highlighting, and use LaTeX
-#     for rendering mathematics (if any).
-#
-#     :param course: A dictionary containing course details such as title, semester, and paths.
-#     :return: None
-#     """
-#     # Build the Pandoc command to convert Markdown to PDF
-#     command: str = (
-#         f"pandoc -s --highlight-style pygments --verbose --katex --toc "
-#         f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
-#         f'--metadata title="{course["title"]}" "{course["path"]}" '
-#         f'-o "{course["pdf_path"]}" '
-#         f"--pdf-engine=xelatex"
-#     )
-#
-#     print(command)
-#
-#     # Execute the Pandoc command using subprocess
-#     try:
-#         subprocess.run(command, shell=True, check=True)
-#     except subprocess.CalledProcessError as e:
-#         print(f"\033[91mError while executing the subprocess: {e}\033[0m")
-#         return
