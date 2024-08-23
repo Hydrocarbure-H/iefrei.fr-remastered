@@ -52,6 +52,7 @@ body {
     width: 100%;
 }
 
+
 .main_left {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -171,7 +172,8 @@ body {
 
 .button_container button,
 .file_container button {
-    background-color: var(--second-bg-color);
+    /*background-color: var(--second-bg-color);*/
+    /*background-color: unset;*/
     border: none;
     color: var(--first-tx-color);
     padding: var(--button-padding);
@@ -181,11 +183,16 @@ body {
     font-size: 15px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 10px;
     transition: .3s;
     width: 100%;
 }
 
+ion-icon {
+    font-size: 20px;
+    /*    align center vertically */
+    vertical-align: middle;
+}
 
 .file_container button:hover {
     background-color: var(--third-bg-color);
