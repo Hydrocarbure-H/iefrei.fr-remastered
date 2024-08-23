@@ -96,7 +96,7 @@ def course(course_id: int) -> str | Response:
 
 
 @app.route('/api/refresh', methods=['GET'])
-def api_courses() -> Response | tuple[Response, int]:
+def refresh() -> Response | tuple[Response, int]:
     """
     Refresh the courses in the database
     :return: The Flask Response

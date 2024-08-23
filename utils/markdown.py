@@ -104,8 +104,25 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
 
 def process_md_to_pdf(course: Dict[str, Any]) -> None:
     """
-    Convert a markdown file to pdf
-    :param course: the course dictionary
+    Convert a Markdown file to PDF.
+
+    This function uses Pandoc to convert a Markdown file into a PDF file.
+    The PDF will include a table of contents, syntax highlighting, and use LaTeX
+    for rendering mathematics (if any).
+
+    :param course: A dictionary containing course details such as title, semester, and paths.
     :return: None
     """
-    pass
+    # Build the Pandoc command to convert Markdown to PDF
+    command: str = (
+        f'pandoc -s --highlight-style pygments --verbose --katex --toc '
+        f'-V toc-title:"Sommaire" --css {PUBLIC_FOLDER_PATH}css/fluent-light.css '
+        f'--metadata title="{course["title"]}" "{course["path"]}" '
+        f'-o "{course["pdf_path"]}" '
+        f'--pdf-engine=xelatex --variable mainfont="Roboto"'
+    )
+
+    print(command)
+
+    # Execute the Pandoc command using subprocess
+    subprocess.run(command, shell=True, check=True)
