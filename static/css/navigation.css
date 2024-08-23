@@ -1,0 +1,36 @@
+/* _navigation.css */
+.nav_bar_elements {
+    text-overflow: ellipsis;
+    font-family: "thin";
+    text-align: center;
+    margin: 20px auto;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--high-bg-color-5);
+    height: 40px;
+    border-radius: var(--border-radius);
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.nav_bar_elements .button {
+    transition: .2s;
+    display: inline-block;
+    color: var(--third-tx-color);
+    text-align: center;
+    padding: 10px 20px;
+    margin: 0px 0px -2px -2px;
+    text-decoration: none;
+}
+
+.nav_bar_elements .button:hover {
+    /* border-radius: 5px; */
+    cursor: pointer;
+    background-color: #eee3;
+}
+
+.selected {
+    background-color: #eee3;
+}

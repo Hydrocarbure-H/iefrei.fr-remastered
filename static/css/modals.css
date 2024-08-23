@@ -1,0 +1,92 @@
+/* _modals.css */
+.popup-container {
+    z-index: 1;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+}
+
+.popup {
+    text-align: left;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    color: var(--first-tx-color);
+    font-size: 16px;
+    padding: 20px 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+    height: 25%;
+}
+
+.notification-container {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 300px;
+    max-width: calc(50% - 100px);
+}
+
+.notification {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    color: #fff;
+    font-size: 16px;
+    padding: 15px 20px;
+    line-height: 20px;
+    margin-bottom: 15px;
+}
+
+.notification strong {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.notification-info {
+    background-color: var(--high-bg-color-5);
+}
+
+.popup strong {
+    font-size: 15px;
+    line-height: 30px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.popup .close_button {
+    background-color: var(--high-bg-color-5);
+    border: none;
+    color: var(--first-bg-color);
+    padding: var(--button-padding);
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+    margin: 4px auto;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: .3s;
+    width: 30%;
+    font-size: 15px;
+}
+
+.popup .close_button:hover {
+    background-color: var(--high-bg-color-4);
+    cursor: pointer;
+}
+
+.popup .mail_link {
+    text-decoration: underline;
+    transition: .3s;
+}
+
+.popup .mail_link:hover {
+    text-decoration: underline;
+    color: var(--high-bg-color-5);
+}

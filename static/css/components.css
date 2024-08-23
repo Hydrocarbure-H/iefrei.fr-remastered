@@ -1,0 +1,97 @@
+/* _components.css */
+
+
+ion-icon {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+
+.file_container {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: var(--file-container-width);
+    display: inline-block;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    padding: 10px;
+    margin: 10px 5px;
+    text-align: center;
+    background-color: var(--first-bg-color);
+    border-radius: var(--border-radius);
+    height: 280px;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.file_container h2 {
+    margin: 10px auto;
+
+    font-family: 'thin';
+    font-weight: 100;
+    font-size: 18px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: var(--file-container-width);
+    display: block;
+    overflow: hidden;
+}
+
+.file_container h3 {
+    font-family: 'thin';
+    font-weight: 100;
+    font-size: 14px;
+    margin: 2px 2px;
+    color: var(--second-tx-color);
+}
+
+
+.button_container {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.button_container button,
+.file_container button {
+    /*background-color: var(--second-bg-color);*/
+    /*background-color: unset;*/
+    border: none;
+    color: var(--first-tx-color);
+    padding: var(--button-padding);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .3s;
+    width: 100%;
+}
+
+.file_container img {
+    /* filter: invert(); */
+    width: 100px;
+}
+
+
+.file_container button:hover {
+    background-color: var(--third-bg-color);
+    cursor: pointer;
+}
+
+#view {
+    display: block;
+    width: 100%;
+    background-color: var(--high-bg-color-5);
+    color: var(--third-tx-color);
+}
+
+#view:hover {
+    background-color: var(--high-bg-color-4);
+}
