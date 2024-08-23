@@ -103,6 +103,8 @@ def serve_assets(semester, course_name, filename):
         os.getenv("MD_FOLDER_LOCATION"), f"md_sync_s{semester}", "Cours", course_name
     )
 
+    print(asset_folder)
+
     # Construct the full file path
     file_path = os.path.join(asset_folder, filename)
 

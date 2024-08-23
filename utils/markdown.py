@@ -83,6 +83,12 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
         f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/assets/",
     )
 
+    # Replace relative image paths with full URLs
+    content = content.replace(
+        "./imgs/",
+        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/imgs/",
+    )
+
     # Convert the modification time from timestamp to datetime object
     course["date"] = datetime.fromtimestamp(course["date"])
 
