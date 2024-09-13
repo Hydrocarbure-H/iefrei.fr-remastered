@@ -104,7 +104,7 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
         f'-o "{course["html_path"]}"'
     )
 
-    print(command)
+    # print(command)
 
     # Execute the Pandoc command using subprocess
     subprocess.run(command, shell=True, check=True)
@@ -116,12 +116,40 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
     :param course: the course dictionary
     :return: None
     """
+    # Read the content of the HTML file
+    with open(course["html_path"], "r", encoding="utf-8") as file:
+        html_content = file.read()
+
+    # Inject CSS and JavaScript into the HTML content
+    injected_content = html_content.replace(
+        "</head>",
+        """
+        <!-- Lien vers Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                  font-weight: 300;
+                  font-style: normal;
+            }
+        </style>
+        <!-- MathJax pour le rendu LaTeX -->
+        <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+        <script type="text/javascript" id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+        </head>
+        """,
+    )
+
+    # Save the file
+    with open(course["html_path"], "w", encoding="utf-8") as file:
+        file.write(injected_content)
+
     # Build the command to convert HTML to PDF using wkhtmltopdf
     command: str = (
         f'wkhtmltopdf --enable-local-file-access "{course["html_path"]}" "{course["pdf_path"]}"'
     )
-
-    print(command)
 
     # Execute the command using subprocess
     subprocess.run(command, shell=True, check=True)

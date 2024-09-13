@@ -103,7 +103,7 @@ def serve_assets(semester, course_name, filename):
         os.getenv("MD_FOLDER_LOCATION"), f"md_sync_s{semester}", "Cours", course_name
     )
 
-    print(asset_folder)
+    # print(asset_folder)
 
     # Construct the full file path
     file_path = os.path.join(asset_folder, filename)
@@ -198,25 +198,25 @@ def refresh() -> Response | tuple[Response, int]:
 
 
 @app.errorhandler(404)
-def page_not_found(e) -> Response:
+def page_not_found(e) -> tuple[Response, int]:
     """
     Handle 404 errors by redirecting to /courses
     :param e: The exception instance
     :return: A redirection response to /courses
     """
     logger.warning(f"404: {request.url}")
-    return redirect(url_for("index"))
+    return jsonify({"status": "error", "message": "Page Not Found"}), 404
 
 
 @app.errorhandler(500)
-def internal_server_error(e) -> Response:
+def internal_server_error(e) -> tuple[Response, int]:
     """
     Handle 500 errors by redirecting to /courses
     :param e: The exception instance
     :return: A redirection response to /courses
     """
     logger.error(f"500: {request.url}")
-    return redirect(url_for("index"))
+    return jsonify({"status": "error", "message": "Internal Server Error"}), 500
 
 
 if __name__ == "__main__":
