@@ -153,3 +153,7 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
 
     # Execute the command using subprocess
     subprocess.run(command, shell=True, check=True)
+
+    # Remove the HTML added content
+    with open(course["html_path"], "w", encoding="utf-8") as file:
+        file.write(html_content)

@@ -103,8 +103,6 @@ def serve_assets(semester, course_name, filename):
         os.getenv("MD_FOLDER_LOCATION"), f"md_sync_s{semester}", "Cours", course_name
     )
 
-    # print(asset_folder)
-
     # Construct the full file path
     file_path = os.path.join(asset_folder, filename)
 
@@ -176,7 +174,9 @@ def refresh() -> Response | tuple[Response, int]:
         # Refresh the courses
         try:
             courses: List[Dict[str, Any]] = process_markdown_files(
-                app.config["MD_FOLDER"]
+                os.path.join(
+                    str(app.config["MD_FOLDER_LOCATION"]), app.config["MD_FOLDER_NAME"]
+                )
             )
             for course in courses:
                 existing_course: Optional[Dict[str, Any]] = get_course(
