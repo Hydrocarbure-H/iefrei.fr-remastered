@@ -147,9 +147,7 @@ def process_md_to_pdf(course: Dict[str, Any]) -> None:
         file.write(injected_content)
 
     # Build the command to convert HTML to PDF using wkhtmltopdf
-    command: str = (
-        f'wkhtmltopdf --enable-local-file-access "{course["html_path"]}" "{course["pdf_path"]}"'
-    )
+    command = f'prince "{course["html_path"]}" -o "{course["pdf_path"]}"'
 
     # Execute the command using subprocess
     subprocess.run(command, shell=True, check=True)
