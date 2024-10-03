@@ -53,3 +53,25 @@ body {
     padding: 50px;
 }
 
+@media (max-width: 800px) {
+    h1 {
+        font-size: 1.5em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    h3 {
+        font-size: 1em;
+    }
+    h4 {
+        font-size: 0.8em;
+    }
+    body {
+        padding: 20px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+}
+

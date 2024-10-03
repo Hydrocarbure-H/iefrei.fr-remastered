@@ -227,5 +227,3 @@ if __name__ == "__main__":
         db.create_all()
         print("Tables created!")
     app.run(debug=app.config["DEBUG"], host=app.config["HOST"], port=app.config["PORT"])
-
-# http://127.0.0.1:5000/assets/5/Theorie%20du%20signal/image-20220913134303505.png
