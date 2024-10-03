@@ -41,6 +41,28 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+@app.errorhandler(404)
+def page_not_found(e) -> tuple[Response, int]:
+    """
+    Handle 404 errors by redirecting to /courses
+    :param e: The exception instance
+    :return: A redirection response to /courses
+    """
+    logger.warning(f"404: {request.url}")
+    return jsonify({"status": "error", "message": "Page Not Found"}), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e) -> tuple[Response, int]:
+    """
+    Handle 500 errors by redirecting to /courses
+    :param e: The exception instance
+    :return: A redirection response to /courses
+    """
+    logger.error(f"500: {request.url}")
+    return jsonify({"status": "error", "message": "Internal Server Error"}), 500
+
+
 @app.route("/")
 def root() -> Response:
     """
@@ -190,6 +212,8 @@ def refresh() -> Response | tuple[Response, int]:
             return jsonify({"status": "success", "courses": courses})
 
         # If an error occurs, return an error message
+        except ValueError as e:
+            return jsonify({"status": "invalid", "message": str(e)}), 400
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
 
@@ -197,29 +221,11 @@ def refresh() -> Response | tuple[Response, int]:
     return jsonify({"status": "error", "message": "Invalid Refresh Key"}), 403
 
 
-@app.errorhandler(404)
-def page_not_found(e) -> tuple[Response, int]:
-    """
-    Handle 404 errors by redirecting to /courses
-    :param e: The exception instance
-    :return: A redirection response to /courses
-    """
-    logger.warning(f"404: {request.url}")
-    return jsonify({"status": "error", "message": "Page Not Found"}), 404
-
-
-@app.errorhandler(500)
-def internal_server_error(e) -> tuple[Response, int]:
-    """
-    Handle 500 errors by redirecting to /courses
-    :param e: The exception instance
-    :return: A redirection response to /courses
-    """
-    logger.error(f"500: {request.url}")
-    return jsonify({"status": "error", "message": "Internal Server Error"}), 500
-
-
 if __name__ == "__main__":
     with app.app_context():
+        print("Creating all tables...", end="")
         db.create_all()
+        print("Tables created!")
     app.run(debug=app.config["DEBUG"], host=app.config["HOST"], port=app.config["PORT"])
+
+# http://127.0.0.1:5000/assets/5/Theorie%20du%20signal/image-20220913134303505.png

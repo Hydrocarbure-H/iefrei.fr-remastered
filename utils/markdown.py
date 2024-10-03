@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 from datetime import datetime
 from typing import List, Dict, Any
@@ -55,6 +56,10 @@ def process_markdown_files(dir_path: str) -> List[Dict[str, Any]]:
         except subprocess.SubprocessError as e:
             print(f"\033[91mError while executing a subprocess: {e}\033[0m")
             raise Exception("Error while refreshing courses. Please try again later.")
+        except ValueError as e:
+            print(f"\033[91mError: Invalid Picture Path: {e}\033[0m")
+            raise ValueError(f"Invalid Picture Path. Please check the markdown file for theses "
+                             f"paths: {e}")
         except Exception as e:
             print(f"\033[91mError: {e}\033[0m")
             raise Exception("Error while refreshing courses. Please try again later.")
@@ -76,6 +81,25 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
     # Read the content of the Markdown file
     with open(course["path"], "r", encoding="utf-8") as f:
         content: str = f.read()
+
+    # Idempotency
+    # Invert replacements to the original state if the script is run multiple times
+    content = content.replace(
+        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/assets/",
+        "./assets/",
+    )
+    content = content.replace(
+        f"{HTTP_ADDR}/assets/{os.getenv('SEMESTER')}/{course['title']}/imgs/",
+        "./imgs/",
+    )
+
+    # Check if every image path format starts with "./imgs/" or ./assets/
+    invalid_paths = re.findall(r'(?<!\./)(imgs/|assets/)(?![^\s]*http)', content)
+
+    if invalid_paths:
+        raise ValueError(f"{len(invalid_paths)} invalid pictures paths found :"
+                         f" {list(set(invalid_paths))}, in"
+                         f" {course['title']}")
 
     # Replace relative image paths with full URLs
     content = content.replace(

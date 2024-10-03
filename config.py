@@ -3,7 +3,7 @@ import os
 
 class Config:
     """
-    Set Flask configuration vars from .env file
+    Set Flask configuration vars from ..env file
     Always been using PostgreSQL, but for this project, I will use SQLite and see how it goes.
     I have to say that I am a little bit scared of the result...
     """
