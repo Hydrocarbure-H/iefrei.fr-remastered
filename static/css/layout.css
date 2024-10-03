@@ -96,6 +96,22 @@
 footer {
     padding: 0px;
     background-color: var(--second-bg-color);
+    color: var(--second-tx-color);
     position: sticky;
     width: 100%;
+}
+
+footer a {
+    color: var(--second-tx-color);
+}
+
+footer ion-icon {
+    font-size: 25px;
+    color: var(--second-tx-color);
+    transition: .3s;
+    margin: 10px 5px;
+}
+
+footer ion-icon:hover {
+    color: var(--first-tx-color);
 }
