@@ -3,37 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Cours</title>
+    <title>iEfrei.fr | Notes de cours</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="iEfrei">
+    <meta itemprop="description"
+          content="iEfrei est un site Internet permettant aux étudiants d'uploader leurs prises de notes et de se les partager. Thomas Peugnet.">
+    <meta itemprop="image" content="https://iefrei.fr/public/images/favicon.png">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://iefrei.fr">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="iEfrei">
+    <meta property="og:description"
+          content="iEfrei est un site Internet permettant aux étudiants d'uploader leurs prises de notes et de se les partager. Thomas Peugnet.">
+    <meta property="og:image" content="https://iefrei.fr/public/images/favicon.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="iEfrei">
+    <meta name="twitter:description"
+          content="iEfrei est un site Internet permettant aux étudiants d'uploader leurs prises de notes et de se les partager. Thomas Peugnet.">
+    <meta name="twitter:image" content="https://iefrei.fr/public/images/favicon.png">
+
+    <meta charset="utf-8"/>
+    <meta name="description"
+          content="iEfrei est un site Internet permettant aux étudiants d'uploader leurs prises de notes et de se les partager. Thomas Peugnet."/>
+    <meta name="keywords"
+          content="iefrei,efrei,paris,cours,lessons,leçons,notes,notes de cours">
+    <meta name="robots" content="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
     <div class="main">
         <div id="main_left" class="main_left full-width">
             <div class="top_container sticky-dropdown">
-                <div class="dropdown">
-                    <button class="dropbtn">
-                        <ion-icon name="chevron-down-outline"></ion-icon>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/courses" onclick="setDropbtnText('Tous les cours')">Tous les cours</a>
-                        <a href="/courses/semester/5" onclick="setDropbtnText('Semestre 5')">Semestre 5</a>
-                        <a href="/courses/semester/6" onclick="setDropbtnText('Semestre 6')">Semestre 6</a>
-                        <a href="/courses/semester/7" onclick="setDropbtnText('Semestre 7')">Semestre 7</a>
-                        <a href="/courses/semester/8" onclick="setDropbtnText('Semestre 8')">Semestre 8</a>
-                    </div>
-                </div>
-
                 <div class="title_container">
                     <h1>iEfrei.fr</h1>
                     <h2>Certains cours méritent d'être pris en note</h2>
                 </div>
             </div>
-
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <ion-icon name="chevron-down-outline"></ion-icon>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/courses" onclick="setDropbtnText('Tous les cours')">Tous les cours</a>
+                    <a href="/courses/semester/5" onclick="setDropbtnText('Semestre 5')">Semestre
+                        5</a>
+                    <a href="/courses/semester/6" onclick="setDropbtnText('Semestre 6')">Semestre
+                        6</a>
+                    <a href="/courses/semester/7" onclick="setDropbtnText('Semestre 7')">Semestre
+                        7</a>
+                    <a href="/courses/semester/8" onclick="setDropbtnText('Semestre 8')">Semestre
+                        8</a>
+                </div>
+            </div>
             <div class="content">
                 {% for course in courses %}
                     <div class="file_container">
-                        <img src="{{ url_for('static', filename='images/file.svg') }}" alt="Icone du cours">
+                        <img src="{{ url_for('static', filename='images/file.svg') }}"
+                             alt="Icone du cours">
                         <h2>{{ course.title }}</h2>
                         <h3>{{ course.author }}</h3>
                         <h3>{{ course.date.strftime('%d/%m/%Y à %Hh%M') }}</h3>
@@ -49,7 +80,8 @@
                                 <ion-icon name="scan-outline"></ion-icon>
                             </button>
                         </div>
-                        <button id="view" onclick="loadCourse('{{ url_for('course', course_id=course.id) }}')">
+                        <button id="view"
+                                onclick="loadCourse('{{ url_for('course', course_id=course.id) }}')">
                             Visualiser
                         </button>
                     </div>
@@ -58,14 +90,17 @@
 
             <footer>
                 <p>Version 2.0</br><a style="text-decoration:underline;"
-                                      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative Commons
-                    Attribution 4.0 International</a></br>Pas d’Utilisation Commerciale </br>© {{ current_year }} Thomas
+                                      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative
+                    Commons
+                    Attribution 4.0 International</a></br>Pas d’Utilisation Commerciale </br>
+                    © {{ current_year }} Thomas
                     Peugnet</p>
             </footer>
         </div>
 
         <div id="main_right" class="main_right hidden">
-            <iframe id="viewer" src="{{ url_for('static', filename='html/default.html') }}" width="100%"
+            <iframe id="viewer" src="{{ url_for('static', filename='html/default.html') }}"
+                    width="100%"
                     height="100%"></iframe>
 
         </div>

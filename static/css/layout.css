@@ -54,7 +54,7 @@
 .title_container {
     display: inline-block;
     vertical-align: center;
-    width: calc(100% - 250px);
+    width: 100%;
 }
 
 
