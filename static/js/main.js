@@ -1,41 +1,33 @@
 /**
  * Manage the dropdown menu choices for the semesters
  */
-document.addEventListener("DOMContentLoaded", function ()
-{
-        const currentUrl = window.location.href;
+document.addEventListener("DOMContentLoaded", function () {
+    const currentUrl = window.location.href;
 
-        if (currentUrl.includes('/semester/5'))
-        {
-            setDropbtnText('Semestre 5');
-        }
-        else if (currentUrl.includes('/semester/6'))
-        {
-            setDropbtnText('Semestre 6');
-        }
-        else if (currentUrl.includes('/semester/7'))
-        {
-            setDropbtnText('Semestre 7');
-        }
-        else if (currentUrl.includes('/semester/8'))
-        {
-            setDropbtnText('Semestre 8');
-        }
-        else
-        {
-            setDropbtnText('Tous les cours');
-        }
+    if (currentUrl.includes('/semester/5')) {
+        setDropbtnText('Semestre 5');
+    } else if (currentUrl.includes('/semester/6')) {
+        setDropbtnText('Semestre 6');
+    } else if (currentUrl.includes('/semester/7')) {
+        setDropbtnText('Semestre 7');
+    } else if (currentUrl.includes('/semester/8')) {
+        setDropbtnText('Semestre 8');
+    } else if (currentUrl.includes('/semester/9')) {
+        setDropbtnText('Semestre 9');
+    } else if (currentUrl.includes('/semester/10')) {
+        setDropbtnText('Semestre 10');
+    } else {
+        setDropbtnText('Tous les cours');
+    }
 });
 
 
 /**
  * Copy the link of the course to the clipboard
  */
-function copy_link(id, title)
-{
+function copy_link(id, title) {
     const link = window.location.origin + '/courses/' + id;
-    navigator.clipboard.writeText(link).then(() =>
-    {
+    navigator.clipboard.writeText(link).then(() => {
         alert('Lien copié pour le cours : ' + title);
     });
 }
@@ -44,8 +36,7 @@ function copy_link(id, title)
  * Set the text of the dropdown button
  * @param text
  */
-function setDropbtnText(text)
-{
+function setDropbtnText(text) {
     const dropbtn = document.querySelector('.dropbtn');
     dropbtn.innerHTML = text + ' <ion-icon name="chevron-down-outline"></ion-icon>';
 }
@@ -54,8 +45,7 @@ function setDropbtnText(text)
  * Load the course in the iframe
  * @param courseUrl
  */
-function loadCourse(courseUrl)
-{
+function loadCourse(courseUrl) {
 
     // If the screen is small (800px), redirect to the course page
     if (window.innerWidth < 800) {
