@@ -56,7 +56,13 @@ jobs:
             echo "🟢 Old container stopped and removed"
 
             echo "Running the new Docker container"
-            sudo docker run -d -v /var/courses:/app/courses --env-file /var/deploy/iefrei-remastered/.env -p 5010:5010 --name iefrei-remastered iefrei-remastered
+            sudo docker run -d \
+            -v /var/courses:/app/courses \
+            -v /path/to/persistent/db/iefrei.db:/app/iefrei.db \
+            --env-file /var/deploy/iefrei-remastered/.env \
+            -p 5010:5010 \
+            --name iefrei-remastered \
+            iefrei-remastered
             echo "🟢 New container running"
 
             echo "Checking if the container is running"
