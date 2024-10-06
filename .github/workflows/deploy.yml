@@ -20,6 +20,9 @@ jobs:
         local_path: ./
         remote_path: /var/deploy/iefrei-remastered 
         sftpArgs: '-o ConnectTimeout=5'
+        exclude: |
+          .git/
+          .gitignore
         sftp_only: false
         delete_remote_files: yes
 
