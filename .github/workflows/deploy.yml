@@ -1,0 +1,43 @@
+name: Deploy on Apache server over SSH
+on: 
+  push:
+    branches:
+        - main
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+            echo "Creating .env file"
+            cat <<EOF > /var/deploy/iefrei-remastered/.env
+            ${{ secrets.ENV_FILE }}
+            EOF
+
+            cd /var/deploy/iefrei-remastered
+
+            echo "Building Docker image..."
+            sudo docker build -t iefrei-remastered .
+            echo "🟢 Docker image built successfully"
+
+
+            echo "Stopping and removing old container if exists"
+            sudo docker stop iefrei-remastered || true
+            sudo docker rm iefrei-remastered || true
+            echo "🟢 Old container stopped and removed"
+
+            echo "Running the new Docker container"
+            sudo docker run -d -v /var/courses:/app/courses --env-file /var/deploy/iefrei-remastered/.env -p 5010:5010 --name iefrei-remastered iefrei-remastered
+            echo "🟢 New container running"
+
+            echo "Checking if the container is running"
+            sudo docker ps | grep iefrei-remastered
+            echo "🟢 Container is running"
