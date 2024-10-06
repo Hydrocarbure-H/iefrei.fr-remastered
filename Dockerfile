@@ -21,6 +21,8 @@ RUN wget https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.t
 RUN pip install --upgrade pip --root-user-action
 RUN pip install -r requirements.txt --root-user-action
 
+COPY .env .env
+
 EXPOSE 5010
 
 CMD ["python3", "app.py"]

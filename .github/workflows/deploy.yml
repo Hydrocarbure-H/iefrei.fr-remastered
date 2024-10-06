@@ -43,10 +43,14 @@ jobs:
             ${{ secrets.ENV_FILE }}
             EOF
 
+            echo "Checking if the db file exists"
+            ls /var/databases/iefrei.db || sqlite3 /var/databases/iefrei.db "VACUUM;"
+            echo "🟢 Database file checked"
+
             cd /var/deploy/iefrei-remastered
 
             echo "Building Docker image..."
-            sudo docker build -t iefrei-remastered .
+            sudo docker build -t iefrei-remastered . --no-cache
             echo "🟢 Docker image built successfully"
 
 
