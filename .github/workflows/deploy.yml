@@ -63,7 +63,6 @@ jobs:
             sudo docker run -d \
             -v /var/courses:/app/courses \
             -v /var/databases/iefrei.db:/app/iefrei.db \
-            --env-file /var/deploy/iefrei-remastered/.env \
             -p 5010:5010 \
             --name iefrei-remastered \
             iefrei-remastered
