@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     apt-transport-https \
     ca-certificates \
-    fontconfig \
+    fontconfig 
 
     
 RUN mkdir -p /usr/share/javascript/katex
