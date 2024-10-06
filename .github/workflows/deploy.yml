@@ -49,6 +49,11 @@ jobs:
 
             cd /var/deploy/iefrei-remastered
 
+            echo "Stopping and removing old container if exists"
+            sudo docker stop iefrei-remastered || true
+            sudo docker rm iefrei-remastered || true
+            echo "🟢 Old container stopped and removed"
+
             echo "Checking if the Docker image exists"
             sudo docker image rm iefrei-remastered || true
             echo "🟢 Docker image checked"
@@ -56,12 +61,6 @@ jobs:
             echo "Building Docker image..."
             sudo docker build -t iefrei-remastered . --no-cache
             echo "🟢 Docker image built successfully"
-
-
-            echo "Stopping and removing old container if exists"
-            sudo docker stop iefrei-remastered || true
-            sudo docker rm iefrei-remastered || true
-            echo "🟢 Old container stopped and removed"
 
             echo "Running the new Docker container"
             sudo docker run -d \
