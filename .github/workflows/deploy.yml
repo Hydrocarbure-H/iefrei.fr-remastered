@@ -4,9 +4,28 @@ on:
     branches:
         - main
 jobs:
-
   build:
     name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Deploy files via SFTP
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      with:
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        server: ${{ secrets.HOST }}
+        port: ${{ secrets.PORT }}
+        local_path: ./
+        remote_path: /var/deploy/iefrei-remastered 
+        sftpArgs: '-o ConnectTimeout=5'
+        sftp_only: false
+        delete_remote_files: yes
+
+  deploy:
+    name: Deploy
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Deploy
