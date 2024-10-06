@@ -19,7 +19,7 @@ jobs:
         script: |
             echo "Creating .env file"
             cat <<EOF > /var/deploy/iefrei-remastered/.env
-            ${{ secrets.HOST }}
+            ${{ secrets.ENV_FILE }}
             EOF
 
             cd /var/deploy/iefrei-remastered
