@@ -10,11 +10,16 @@ RUN apt-get update && apt-get install -y \
     wget \
     apt-transport-https \
     ca-certificates \
-    fontconfig 
+    fontconfig
+    # texlive \
+    # texlive-latex-extra \
+    # texlive-fonts-recommended \
+    # texlive-latex-recommended \
+    # texlive-xetex
 
-    
 RUN mkdir -p /usr/share/javascript/katex
 RUN wget https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css -O /usr/share/javascript/katex/katex.min.css
+RUN wget https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js -O /usr/share/javascript/katex/katex.min.js
 
 RUN wget https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.tar.gz && \
     tar xzf prince-15.4.1-linux-generic-x86_64.tar.gz && \

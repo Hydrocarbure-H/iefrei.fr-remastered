@@ -133,6 +133,20 @@ def process_md_to_html(course: Dict[str, Any]) -> None:
     # Execute the Pandoc command using subprocess
     subprocess.run(command, shell=True, check=True)
 
+    # Update references to /usr/share/javascript/katex
+    with open(course["html_path"], "r", encoding="utf-8") as file:
+        html_content = file.read()
+
+    # Replace references to /usr/share/javascript/katex with the correct URL
+    html_content = html_content.replace(
+        "/usr/share/javascript/katex",
+        f"{HTTP_ADDR}/static/katex"
+    )
+    
+    # Save the file
+    with open(course["html_path"], "w", encoding="utf-8") as file:
+        file.write(html_content)
+
 
 def process_md_to_pdf(course: Dict[str, Any]) -> None:
     """
