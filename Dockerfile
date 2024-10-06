@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     texlive-xetex \
     texlive-science
 
-RUN wget https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css -O /app/static/css/katex.min.css
+RUN wget https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css -O /usr/share/javascript/katex/katex.min.css
 
 RUN wget https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.tar.gz && \
     tar xzf prince-15.4.1-linux-generic-x86_64.tar.gz && \
