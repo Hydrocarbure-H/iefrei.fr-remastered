@@ -3,6 +3,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY . /app
+COPY .env .env
 
 RUN apt-get update && apt-get install -y \
     pandoc \
@@ -18,10 +19,9 @@ RUN wget https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.t
     cd .. && rm -rf prince-15.4.1-linux-generic-x86_64.tar.gz prince-15.4.1-linux-generic-x86_64
 
 
-RUN pip install --upgrade pip --root-user-action
-RUN pip install -r requirements.txt --root-user-action
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-COPY .env .env
 
 EXPOSE 5010
 

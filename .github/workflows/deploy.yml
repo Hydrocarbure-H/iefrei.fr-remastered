@@ -49,6 +49,10 @@ jobs:
 
             cd /var/deploy/iefrei-remastered
 
+            echo "Checking if the Docker image exists"
+            sudo docker image rm iefrei-remastered || true
+            echo "🟢 Docker image checked"
+
             echo "Building Docker image..."
             sudo docker build -t iefrei-remastered . --no-cache
             echo "🟢 Docker image built successfully"
