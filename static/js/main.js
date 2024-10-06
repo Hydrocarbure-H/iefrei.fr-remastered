@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setDropbtnText('Semestre 7');
     } else if (currentUrl.includes('/semester/8')) {
         setDropbtnText('Semestre 8');
-    } else if (currentUrl.includes('/semester/9')) {
-        setDropbtnText('Semestre 9');
     } else if (currentUrl.includes('/semester/10')) {
         setDropbtnText('Semestre 10');
     } else {
