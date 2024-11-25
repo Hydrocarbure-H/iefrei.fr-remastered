@@ -23,7 +23,6 @@ RUN wget https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.t
     cd .. && rm -rf prince-15.4.1-linux-generic-x86_64.tar.gz prince-15.4.1-linux-generic-x86_64
 
 
-#RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 

@@ -2,7 +2,7 @@ import os
 from typing import Dict, Any, List, Optional
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import asc
+from sqlalchemy import desc
 
 db = SQLAlchemy()
 
@@ -38,7 +38,7 @@ def get_all_courses() -> List[Dict[str, Any]]:
     :return: Dict list of all courses
     """
     # order by desc
-    courses = Course.query.order_by(asc(Course.date)).all()
+    courses = Course.query.order_by(desc(Course.date)).all()
     return [
         {
             "id": course.id,
@@ -62,7 +62,9 @@ def get_all_courses_by_semester(semester: int) -> List[Dict[str, Any]]:
     :return: Dict list of all courses
     """
     # order by desc
-    courses = Course.query.filter_by(semester=semester).order_by(asc(Course.date)).all()
+    courses = (
+        Course.query.filter_by(semester=semester).order_by(desc(Course.date)).all()
+    )
     return [
         {
             "id": course.id,
